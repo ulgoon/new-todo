@@ -1,5 +1,6 @@
+import { Check, Trash2, Undo2 } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { IconTooltipButton } from '@/components/icon-tooltip-button'
 import { formatDateTime } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import type { Todo } from '@/types/todo'
@@ -23,18 +24,24 @@ export function TodoCard({ todo, onComplete, onCancel, onDelete }: TodoCardProps
           </span>
           <div className="flex shrink-0 items-center gap-1">
             {todo.status === 'in_progress' && (
-              <Button variant="ghost" size="sm" onClick={() => onComplete(todo.id)}>
-                완료
-              </Button>
+              <IconTooltipButton
+                label="완료"
+                icon={<Check />}
+                onClick={() => onComplete(todo.id)}
+              />
             )}
             {todo.status === 'completed' && (
-              <Button variant="ghost" size="sm" onClick={() => onCancel(todo.id)}>
-                취소
-              </Button>
+              <IconTooltipButton
+                label="취소"
+                icon={<Undo2 />}
+                onClick={() => onCancel(todo.id)}
+              />
             )}
-            <Button variant="ghost" size="sm" onClick={() => onDelete(todo.id)}>
-              삭제
-            </Button>
+            <IconTooltipButton
+              label="삭제"
+              icon={<Trash2 />}
+              onClick={() => onDelete(todo.id)}
+            />
           </div>
         </div>
         {todo.completedAt && (
