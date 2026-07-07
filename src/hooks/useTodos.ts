@@ -29,5 +29,27 @@ export function useTodos() {
     setTodos((prev) => prev.filter((todo) => todo.id !== id))
   }
 
-  return { todos, addTodo, deleteTodo }
+  function completeTodo(id: string) {
+    const now = new Date().toISOString()
+    setTodos((prev) =>
+      prev.map((todo) =>
+        todo.id === id
+          ? { ...todo, status: 'completed', completedAt: now, updatedAt: now }
+          : todo,
+      ),
+    )
+  }
+
+  function cancelTodo(id: string) {
+    const now = new Date().toISOString()
+    setTodos((prev) =>
+      prev.map((todo) =>
+        todo.id === id
+          ? { ...todo, status: 'cancelled', cancelledAt: now, updatedAt: now }
+          : todo,
+      ),
+    )
+  }
+
+  return { todos, addTodo, deleteTodo, completeTodo, cancelTodo }
 }

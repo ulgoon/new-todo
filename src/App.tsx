@@ -6,7 +6,7 @@ import { TodoGrid } from '@/components/todo/todo-grid'
 import { useTodos } from '@/hooks/useTodos'
 
 function App() {
-  const { todos, addTodo, deleteTodo } = useTodos()
+  const { todos, addTodo, deleteTodo, completeTodo, cancelTodo } = useTodos()
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
 
   if (todos.length === 0) {
@@ -15,7 +15,12 @@ function App() {
 
   return (
     <>
-      <TodoGrid todos={todos} onDelete={deleteTodo} />
+      <TodoGrid
+        todos={todos}
+        onComplete={completeTodo}
+        onCancel={cancelTodo}
+        onDelete={deleteTodo}
+      />
       <AddTodoFab onClick={() => setIsAddModalOpen(true)} />
       <AddTodoModal
         open={isAddModalOpen}
