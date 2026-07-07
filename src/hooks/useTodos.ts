@@ -51,5 +51,14 @@ export function useTodos() {
     )
   }
 
-  return { todos, addTodo, deleteTodo, completeTodo, cancelTodo }
+  function updateTodo(id: string, updates: Partial<Todo>) {
+    const now = new Date().toISOString()
+    setTodos((prev) =>
+      prev.map((todo) =>
+        todo.id === id ? { ...todo, ...updates, updatedAt: now } : todo,
+      ),
+    )
+  }
+
+  return { todos, addTodo, deleteTodo, completeTodo, cancelTodo, updateTodo }
 }

@@ -3,12 +3,13 @@ import type { Todo } from '@/types/todo'
 
 interface TodoGridProps {
   todos: Todo[]
+  onEdit: (todo: Todo) => void
   onComplete: (id: string) => void
   onCancel: (id: string) => void
   onDelete: (id: string) => void
 }
 
-export function TodoGrid({ todos, onComplete, onCancel, onDelete }: TodoGridProps) {
+export function TodoGrid({ todos, onEdit, onComplete, onCancel, onDelete }: TodoGridProps) {
   if (todos.length === 0) {
     return (
       <p className="p-4 text-center text-muted-foreground">
@@ -23,6 +24,7 @@ export function TodoGrid({ todos, onComplete, onCancel, onDelete }: TodoGridProp
         <TodoCard
           key={todo.id}
           todo={todo}
+          onEdit={onEdit}
           onComplete={onComplete}
           onCancel={onCancel}
           onDelete={onDelete}
