@@ -1,8 +1,21 @@
+import { CenteredTodoInput } from '@/components/todo/centered-todo-input'
+import { useTodos } from '@/hooks/useTodos'
+
 function App() {
+  const { todos, addTodo } = useTodos()
+
+  if (todos.length === 0) {
+    return <CenteredTodoInput onAdd={addTodo} />
+  }
+
   return (
-    <div className="flex min-h-svh items-center justify-center">
-      <p className="text-muted-foreground">TODO app coming soon</p>
-    </div>
+    <ul className="mx-auto max-w-md space-y-2 p-4">
+      {todos.map((todo) => (
+        <li key={todo.id} className="rounded-md border p-3">
+          {todo.title}
+        </li>
+      ))}
+    </ul>
   )
 }
 
