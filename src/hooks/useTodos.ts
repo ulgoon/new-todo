@@ -25,5 +25,9 @@ export function useTodos() {
     setTodos((prev) => [newTodo, ...prev])
   }
 
-  return { todos, addTodo }
+  function deleteTodo(id: string) {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id))
+  }
+
+  return { todos, addTodo, deleteTodo }
 }
