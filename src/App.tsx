@@ -5,6 +5,7 @@ import { CenteredTodoInput } from '@/components/todo/centered-todo-input'
 import { EditTodoModal } from '@/components/todo/edit-todo-modal'
 import { TodoGrid } from '@/components/todo/todo-grid'
 import { TodoToolbar } from '@/components/todo/todo-toolbar'
+import { SyncStatusBanner } from '@/components/sync-status-banner'
 import { useTodos } from '@/hooks/useTodos'
 import { isStale } from '@/lib/todo-visibility'
 import {
@@ -16,7 +17,18 @@ import {
 import type { Todo } from '@/types/todo'
 
 function App() {
-  const { todos, addTodo, deleteTodo, completeTodo, cancelTodo, updateTodo } = useTodos()
+  const {
+    todos,
+    isLoading,
+    isSyncing,
+    error,
+    addTodo,
+    deleteTodo,
+    completeTodo,
+    cancelTodo,
+    updateTodo,
+    clearError,
+  } = useTodos()
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [showAll, setShowAll] = useState(false)
   const [sort, setSort] = useState<SortOption>('newest')
@@ -30,12 +42,26 @@ function App() {
 
   const editingTodo = todos.find((todo) => todo.id === editingTodoId) ?? null
 
+  if (isLoading && todos.length === 0) {
+    return (
+      <div className="flex min-h-svh items-center justify-center text-muted-foreground">
+        불러오는 중...
+      </div>
+    )
+  }
+
   if (todos.length === 0) {
-    return <CenteredTodoInput onAdd={addTodo} />
+    return (
+      <>
+        <SyncStatusBanner isSyncing={isSyncing} error={error} onDismissError={clearError} />
+        <CenteredTodoInput onAdd={addTodo} />
+      </>
+    )
   }
 
   return (
     <>
+      <SyncStatusBanner isSyncing={isSyncing} error={error} onDismissError={clearError} />
       <TodoToolbar
         sort={sort}
         onSortChange={setSort}
